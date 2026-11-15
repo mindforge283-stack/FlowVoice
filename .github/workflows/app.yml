@@ -13,7 +13,10 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '9.3.1'
-      - run: gradle assembleDebug
+      - name: Build Debug APK
+        env:
+          GRADLE_OPTS: "-Xmx4g -Dorg.gradle.jvmargs=-Xmx4g --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.base/java.io=ALL-UNNAMED"
+        run: gradle assembleDebug --no-daemon -Pkotlin.compiler.execution.strategy=in-process -Pksp.useKSP2=true
       - uses: actions/upload-artifact@v4
         with:
           name: FlowVoice-APK
